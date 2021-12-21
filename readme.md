@@ -1,3 +1,10 @@
+# Flex Version
+
+[![Crates.io](https://img.shields.io/crates/v/flex-version?style=flat-square)](https://crates.io/crates/flex-version)
+[![Crates.io](https://img.shields.io/crates/d/flex-version?style=flat-square)](https://crates.io/crates/flex-version)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/cloudwalk/flex-version/blob/master/LICENSE-MIT)
+[![Contributors](https://img.shields.io/github/contributors/cloudwalk/flex-version?style=flat-square)](https://github.com/cloudwalk/flex-version/graphs/contributors)
+
 A crate for flexible version numbers, mostly inspired by [Ruby's Gem::Version](https://ruby-doc.org/stdlib-3.0.3/libdoc/rubygems/rdoc/Gem/Version.html). This crate provides a flexible versioning structure which is compatible with [Semantic Versioning](https://semver.org/), and some other obscure versioning schemas used in the wild.
 
 ## Syntax
