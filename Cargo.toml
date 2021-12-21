@@ -10,3 +10,7 @@ keywords = [ "version", "versioning", "semver", "semantic-versioning" ]
 categories = [ "parsing", "development-tools" ]
 
 [dependencies]
+serde = { version = "1.0", optional = true }
+
+[package.metadata.docs.rs]
+features = [ "serde" ]
