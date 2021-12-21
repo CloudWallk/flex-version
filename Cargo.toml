@@ -1,8 +1,12 @@
 [package]
 name = "flex-version"
+description = "A crate for flexible version numbers, mostly inspired by Ruby's Gem::Version"
+authors = [ "cloudwalk.io" ]
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+repository = "https://github.com/cloudwalk/flex-version"
+keywords = [ "version", "versioning", "semver", "semantic-versioning" ]
+categories = [ "parsing", "development-tools" ]
 
 [dependencies]
