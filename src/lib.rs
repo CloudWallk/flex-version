@@ -1,4 +1,4 @@
-#![doc = include_str!("../readme.md")]
+#![doc = include_str!("../README.md")]
 
 #[cfg(feature = "serde")]
 mod serde;
