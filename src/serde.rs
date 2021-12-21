@@ -11,3 +11,11 @@ impl<'de> serde::Deserialize<'de> for Version {
         version_str.parse().map_err(Error::custom)
     }
 }
+
+impl serde::Serialize for Version {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer {
+        serializer.collect_str(self)
+    }
+}
