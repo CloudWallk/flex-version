@@ -114,7 +114,7 @@ impl Error for ParseVersionError {}
 
 /// A version. Versions are composed of one or more components, and provide a total
 /// ordering.
-#[derive(Clone, Hash)]
+#[derive(Clone)]
 pub struct Version(Box<[Component]>);
 
 impl PartialEq for Version {
