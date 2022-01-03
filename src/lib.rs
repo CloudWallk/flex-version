@@ -81,22 +81,73 @@ impl<'a> Iterator for ComponentParser<'a> {
         {
             self.input = tail;
         }
+        // Some versions have the format "7.4.1 (4452929)", so we must be able to
+        // parse the trailing parenthesized component.
+        else if let Some(tail) = self.input.strip_prefix(" (") {
+            self.input = tail;
+
+            if self.parse_integer::<u32>().is_none() && self.parse_identifier().is_none() {
+                return Some(Err(self.error()));
+            }
+
+            if let Some(tail) = self.input.strip_prefix(')') {
+                self.input = tail;
+            } else {
+                return Some(Err(self.error()));
+            }
+
+            return if self.input.is_empty() {
+                None
+            } else {
+                Some(Err(self.error()))
+            };
+        }
 
         // Try to parse a number.
-        if let Some((number, tail)) = self.input.split_prefix(|c| c.is_ascii_digit()) {
-            if let Ok(number) = number.parse() {
-                self.input = tail;
-                return Some(Ok(Component::Number(number)));
-            }
+        if let Some(component) = self.parse_number() {
+            return Some(Ok(component));
         }
 
         // Try to parse an identifier.
-        if let Some((identifier, tail)) = self.input.split_prefix(|c| c.is_ascii_alphabetic()) {
-            self.input = tail;
-            return Some(Ok(Component::Identifier(identifier.into())));
+        if let Some(component) = self.parse_identifier() {
+            return Some(Ok(component));
         }
 
-        Some(Err(ParseVersionError(self.input.to_owned())))
+        Some(Err(self.error()))
+    }
+}
+
+impl<'a> ComponentParser<'a> {
+    /// Try to parse an integer of the given type.
+    fn parse_integer<N: FromStr>(&mut self) -> Option<N> {
+        if let Some((integer, tail)) = self.input.split_prefix(|c| c.is_ascii_digit()) {
+            if let Ok(integer) = integer.parse() {
+                self.input = tail;
+                return Some(integer);
+            }
+        }
+
+        None
+    }
+
+    /// Try to parse a number component.
+    fn parse_number(&mut self) -> Option<Component> {
+        self.parse_integer().map(Component::Number)
+    }
+
+    /// Try to parse an identifier component.
+    fn parse_identifier(&mut self) -> Option<Component> {
+        if let Some((identifier, tail)) = self.input.split_prefix(|c| c.is_ascii_alphabetic()) {
+            self.input = tail;
+            return Some(Component::Identifier(identifier.into()));
+        }
+
+        None
+    }
+
+    /// Generate a error with the current input.
+    fn error(&self) -> ParseVersionError {
+        ParseVersionError(self.input.to_owned())
     }
 }
 

@@ -32,3 +32,12 @@ fn test_ordering() {
 
     assert_eq!(versions, versions_sorted)
 }
+
+/// Some versions have the format "7.4.1 (4452929)", so we must be able to parse the
+/// trailing parenthesized component.
+#[test]
+fn test_calculator_version() {
+    "7.4.1 (4452929)"
+        .parse::<Version>()
+        .expect("invalid version");
+}
