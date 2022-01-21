@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use serde::de::Error;
 
 use super::Version;
@@ -7,7 +9,7 @@ impl<'de> serde::Deserialize<'de> for Version {
     where
         D: serde::Deserializer<'de>,
     {
-        let version_str = <&str>::deserialize(deserializer)?;
+        let version_str = <Cow<str>>::deserialize(deserializer)?;
         version_str.parse().map_err(Error::custom)
     }
 }
