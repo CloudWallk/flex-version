@@ -41,3 +41,11 @@ fn test_calculator_version() {
         .parse::<Version>()
         .expect("invalid version");
 }
+
+/// Some vendors sometimes use goofy versions, and we must be able to parse them.
+#[test]
+fn test_vendor_version() {
+    "3.10.6.0004_tacIssue_RIDCrush_Issue_211101_182805"
+        .parse::<Version>()
+        .expect("invalid version");
+}
