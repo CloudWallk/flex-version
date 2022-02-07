@@ -42,6 +42,15 @@ fn test_calculator_version() {
         .expect("invalid version");
 }
 
+/// Some versions have the format "10.0.014 (Isengard_RC01.phone_dynamic)", so we must be
+/// able to parse the trailing parenthesized component.
+#[test]
+fn test_messaging_version() {
+    "10.0.014 (Isengard_RC01.phone_dynamic)"
+        .parse::<Version>()
+        .expect("invalid version");
+}
+
 /// Some vendors sometimes use goofy versions, and we must be able to parse them.
 #[test]
 fn test_vendor_version() {

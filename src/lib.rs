@@ -82,21 +82,10 @@ impl<'a> Iterator for ComponentParser<'a> {
             self.input = tail;
         }
         // Some versions have the format "7.4.1 (4452929)", so we must be able to
-        // parse the trailing parenthesized component.
+        // parse the trailing parenthesized string.
         else if let Some(tail) = self.input.strip_prefix(" (") {
-            self.input = tail;
-
-            if self.parse_integer::<u32>().is_none() && self.parse_identifier().is_none() {
-                return Some(Err(self.error()));
-            }
-
-            if let Some(tail) = self.input.strip_prefix(')') {
-                self.input = tail;
-            } else {
-                return Some(Err(self.error()));
-            }
-
-            return if self.input.is_empty() {
+            return if tail.trim_start_matches(|c| c != ')') == ")" {
+                self.input = "";
                 None
             } else {
                 Some(Err(self.error()))
